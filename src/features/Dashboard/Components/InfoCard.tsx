@@ -1,12 +1,7 @@
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { InfoCardProps } from "../types/types";
 
-// Modify the data structure to accept a dynamic list of items
-interface InfoCardProps {
-  title: string;
-  description: string;
-  data: { name: string; amount: number }[]; // Array of objects, each with a name and amount
-  color: string;
-}
+
 
 const InfoCard: React.FC<InfoCardProps> = ({ description, data, color }) => {
   const calculateTotal = (data: { name: string; amount: number }[]) => {

@@ -1,10 +1,6 @@
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { reciveORpay } from "../types/types";
 
-// Dynamic revenue data interface
-interface reciveORpay {
-  recivable: number;
-  Payable: number;
-}
 
 const AccountReceivableCard: React.FC<{ reciveORpay: reciveORpay }> = ({ reciveORpay }) => {
     return (
