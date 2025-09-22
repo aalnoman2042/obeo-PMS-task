@@ -1,45 +1,46 @@
-// import InfoCard from "@/components/InfoCard";  // Importing the reusable InfoCard component
 import DepartmentSaleCard from "@/features/Dashboard/Components/DepartmentSaleCard";
 import AccountRecivableCard from "@/features/Dashboard/Components/AccountRecivableCard";
 import InfoCard from "@/features/Dashboard/Components/InfoCard";
 
 // Dummy data
-const cashData = {
-  cashInHand: 0.0,
-  mBanking: 0.0,
-  cashAtBank: 0.0,
+const cashData = [
+  { name: "Cash in Hand", amount: 0.0 },
+  { name: "M-Banking", amount: 0.0 },
+  { name: "Cash At Bank", amount: 0.0 },
+];
+
+const loanData = [
+  { name: "long term loans", amount: 0.00 },
+  { name: "term loand (trust) A/c no.000", amount: 0.00 },
+  { name: "short Term Loans", amount: 0.00 },
+];
+
+const inventoryData = [
+  { name: "Tobacco", amount: 200.0 }, // Tobacco item with cost
+  { name: "Cigarettes", amount: 150.5 }, // Another inventory item
+  { name: "Alcohol", amount: 120.0 }, // Add more items as needed
+];
+
+const revenueData = {
+  roomRevenue: 12000.50,
+  restaurantRevenue: 8500.00,
+  banquetRevenue: 3000.75,
+  otherRevenue: 1000.00,
 };
 
-const loanData = {
-  cashInHand: 1.5,
-  mBanking: 2.3,
-  cashAtBank: 3.0,
+const reciveORpay = {
+  recivable: 15000.50,
+  Payable: 12000.75,
 };
 
-const inventoryData = {
-  cashInHand: 2.0,
-  mBanking: 1.1,
-  cashAtBank: 0.5,
-};
-
-  const revenueData = {
-    roomRevenue: 12000.50,
-    restaurantRevenue: 8500.00,
-    banquetRevenue: 3000.75,
-    otherRevenue: 1000.00,
-  };
-  const reciveORpay = {
-    recivable: 15000.50,
-    Payable: 12000.75,
-  };
 export function SectionCards() {
   return (
     <div className="grid grid-flow-col grid-rows-2 gap-5">
       <div className="grid md:grid-cols-2 gap-2 grid-cols-1">
         {/* department sale card */}
-        <DepartmentSaleCard revenueData={revenueData}></DepartmentSaleCard>
+        <DepartmentSaleCard revenueData={revenueData} />
         {/* account card */}
-        <AccountRecivableCard reciveORpay={reciveORpay}></AccountRecivableCard>
+        <AccountRecivableCard reciveORpay={reciveORpay} />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">

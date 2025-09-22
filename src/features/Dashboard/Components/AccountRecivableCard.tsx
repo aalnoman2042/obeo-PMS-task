@@ -8,33 +8,33 @@ interface reciveORpay {
 
 const AccountReceivableCard: React.FC<{ reciveORpay: reciveORpay }> = ({ reciveORpay }) => {
     return (
-        <div>
+        <div className="w-full max-w-xl mx-auto">
             <Card className="@container/card">
                 <CardHeader>
-                    <CardDescription className="bg-[#17A2B8] pl-3 py-3 text-white">
+                    <CardDescription className="bg-[#17A2B8] rounded-b-lg pl-3 py-3 text-white">
                         Account Receivable / Payable
                     </CardDescription>
-                    <CardTitle className="text-2xl font-semibold tabular-nums  w-[90%]">
-                        <div className="flex">
-                            {/* Room Revenue */}
+                    <CardTitle className="text-2xl font-semibold tabular-nums w-full">
+                        <div className="flex flex-wrap gap-4 justify-between">
+                            {/* Receivable */}
                             <div className="flex items-center">
                                 <div className="w-10 h-3 bg-[#4BC0C0]"></div>
-                                <p className="ml-2">Room Revenue</p>
+                                <p className="ml-2 text-sm sm:text-base">Receivable</p>
                             </div>
-                            {/* Restaurant Revenue */}
-                            <div className="flex items-center ml-4">
+                            {/* Payable */}
+                            <div className="flex items-center">
                                 <div className="w-10 h-3 bg-[#36A2EB]"></div>
-                                <p className="ml-2">Restaurant Revenue</p>
+                                <p className="ml-2 text-sm sm:text-base">Payable</p>
                             </div>
                         </div>
                     </CardTitle>
                 </CardHeader>
 
                 {/* Display dynamic revenue values */}
-                <div className="mx-auto">
-                    <ul role="list" className="list-disc marker:text-black">
-                        <li>Room Revenue: {reciveORpay.recivable.toFixed(2)}৳</li>
-                        <li>Restaurant Revenue: {reciveORpay.Payable.toFixed(2)}৳</li>
+                <div className="mx-auto p-4">
+                    <ul role="list" className="list-disc marker:text-black text-sm sm:text-base">
+                        <li className="text-2xl text-[#4BC0C0]">Receivable: {reciveORpay.recivable.toFixed(2)}৳</li>
+                        <li className="text-2xl text-[#36A2EB]">Payable: {reciveORpay.Payable.toFixed(2)}৳</li>
                     </ul>
                 </div>
             </Card>

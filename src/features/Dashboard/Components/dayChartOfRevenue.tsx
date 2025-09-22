@@ -21,7 +21,7 @@ const data = [
 
 const DayChartOfRevenue: React.FC = () => {
   return (
-    <ResponsiveContainer width="100%" height={300}>
+    <ResponsiveContainer width="100%" height={400}>
       <BarChart data={data}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="date"
@@ -30,7 +30,11 @@ const DayChartOfRevenue: React.FC = () => {
         />
         <YAxis />
         <Tooltip />
-        <Legend />
+         <Legend
+                  layout="horizontal"  // Horizontal layout for the Legend
+                  verticalAlign="top"   // Position the Legend at the top
+                  align="center"        // Center the Legend horizontally
+                />
         <Bar dataKey="room" fill="#82ca9d" name="Room Revenue" />
         <Bar dataKey="restaurant" fill="#00bcd4" name="Restaurant Revenue" />
         <Bar dataKey="banquet" fill="#9c27b0" name="Banquet Revenue" />

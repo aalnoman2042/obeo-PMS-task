@@ -27,8 +27,13 @@ const data = [
 
 const MonthlyRevenueChart: React.FC = () => {
   return (
-    <ResponsiveContainer width="100%" height={300}>
+    <ResponsiveContainer width="100%" height={400}>
       <BarChart data={data}>
+        <Legend
+          layout="horizontal"  // Horizontal layout for the Legend
+          verticalAlign="top"   // Position the Legend at the top
+          align="center"        // Center the Legend horizontally
+        />
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis 
           dataKey="month" 
@@ -37,7 +42,6 @@ const MonthlyRevenueChart: React.FC = () => {
         />
         <YAxis />
         <Tooltip />
-        <Legend />
         <Bar dataKey="revenue" fill="#4CAF50" name="Revenue" />
         <Bar dataKey="expenses" fill="#E91E63" name="Expenses" />
         <Bar dataKey="profitLoss" fill="#2196F3" name="Profit/Loss" />
