@@ -2,19 +2,19 @@ import { baseApi } from '@/Redux/baseApi';
 import { createSlice } from '@reduxjs/toolkit';
 
 
-interface FrontOfficeState {
+interface dashBoardState {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any[]; // Adjust type based on the data returned from API
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
 }
 
-const initialState: FrontOfficeState = {
+const initialState: dashBoardState = {
   data: [],
   status: 'idle',
 };
 
 export const dashboardSlice = createSlice({
-  name: 'frontOffice',
+  name: 'accountDashboard',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -28,4 +28,4 @@ export const dashboardSlice = createSlice({
   },
 });
 
-export const frontOfficeReducer = dashboardSlice.reducer;
+export const dashboardReducer = dashboardSlice.reducer;

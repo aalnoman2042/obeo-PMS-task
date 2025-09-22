@@ -28,7 +28,9 @@ const data = [
 const MonthlyRevenueChart: React.FC = () => {
   return (
     <ResponsiveContainer width="100%" height={400}>
-      <BarChart data={data}>
+      <BarChart data={data}
+      
+      margin={{  bottom: 50 }}>
         <Legend
           layout="horizontal"  // Horizontal layout for the Legend
           verticalAlign="top"   // Position the Legend at the top

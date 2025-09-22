@@ -22,7 +22,9 @@ const data = [
 const DayChartOfRevenue: React.FC = () => {
   return (
     <ResponsiveContainer width="100%" height={400}>
-      <BarChart data={data}>
+      <BarChart data={data}
+     margin={{  bottom: 50 }}
+     >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="date"
         angle={-45}

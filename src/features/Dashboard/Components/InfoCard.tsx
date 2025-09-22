@@ -16,7 +16,7 @@ const InfoCard: React.FC<InfoCardProps> = ({ description, data, color }) => {
     <Card className={`bg-white shadow-md rounded-lg ${color}`}>
       <CardHeader>
         <CardDescription className={`py-3 pl-3 bg-[#17A2B8] rounded-b-sm text-white`}>{description}</CardDescription>
-        <CardTitle className={`text-2xl font-semibold tabular-nums text-gray-800`}>
+        <CardTitle className={`text-lg font-semibold tabular-nums text-gray-800`}>
           <div>
             {/* Dynamically display each inventory or loan item */}
             {data.map((item) => (
