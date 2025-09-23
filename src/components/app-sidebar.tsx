@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as React from "react"
 import {
   IconCamera,
@@ -15,7 +16,7 @@ import {
  
 } from "@tabler/icons-react"
 
-import { NavMain } from "@/components/nav-main"
+// import { NavMain } from "@/components/nav-main"
 
 
 import {
@@ -129,14 +130,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             >
               <a href="#">
                 <IconInnerShadowTop className="!size-5 " />
-                <span className="text-neutral-300 font-semibold">Dashboard</span>
+                <span className="text-[#17A2B8] font-semibold">Dashboard</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        {/* <NavMain items={data.navMain} /> */}
         {/* <NavDocuments items={data.documents} /> */}
         {/* <NavSecondary items={data.navSecondary} className="mt-auto" /> */}
       </SidebarContent>

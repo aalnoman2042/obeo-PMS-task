@@ -1,6 +1,6 @@
-import DepartmentSaleCard from "@/features/Dashboard/Components/DepartmentSaleCard";
-import AccountRecivableCard from "@/features/Dashboard/Components/AccountRecivableCard";
-import InfoCard from "@/features/Dashboard/Components/InfoCard";
+import DepartmentSaleCard from "@/features/account/Components/DepartmentSaleCard";
+import AccountRecivableCard from "@/features/account/Components/AccountRecivableCard";
+import InfoCard from "@/features/account/Components/InfoCard";
 
 // Dummy data
 const cashData = [
@@ -16,9 +16,9 @@ const loanData = [
 ];
 
 const inventoryData = [
-  { name: "Tobacco", amount: 200.0 }, // Tobacco item with cost
-  { name: "Cigarettes", amount: 150.5 }, // Another inventory item
-  { name: "Alcohol", amount: 120.0 }, // Add more items as needed
+  { name: "Tobacco", amount: 200.0 }, 
+  { name: "Cigarettes", amount: 150.5 }, 
+  { name: "Alcohol", amount: 120.0 }, 
 ];
 
 const revenueData = {

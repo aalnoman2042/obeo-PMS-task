@@ -11,9 +11,10 @@ export function SiteHeader() {
           orientation="vertical"
           className="mx-2 data-[orientation=vertical]:h-4"
         />
-        <h1 className="text-base font-medium">Documents</h1>
+ 
         <div className="ml-auto flex items-center gap-2">
-          <h3>Application date</h3>
+          <h3>Application date :{"18-03-2025"} </h3>
+          <h3>{"account holder name"}</h3>
         </div>
       </div>
     </header>

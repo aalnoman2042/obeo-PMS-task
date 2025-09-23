@@ -1,6 +1,7 @@
-import { dashboardSlice } from '@/features/Dashboard/DasboardSlices/dashboardSlices';
+
 import { configureStore } from '@reduxjs/toolkit';
 import { baseApi } from './baseApi';
+import { dashboardSlice } from '@/features/account/DasboardSlices/dashboardSlices';
 
 export const store = configureStore({
   reducer: {
