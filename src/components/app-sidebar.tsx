@@ -28,18 +28,38 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import { NavDocuments } from "./nav-documents"
+import { NavSecondary } from "./nav-secondary"
+import { NavMain } from "./nav-main"
+import FinanceYear from "@/features/account/pages/FinanceYear"
 
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
+  
   navMain: [
     {
       title: "Dashboard",
-      url: "#",
-      icon: IconDashboard,
+      url: "/",
+      // icon: IconDashboard,
+    },
+    {
+      title: "Finance year",
+      Component: FinanceYear,
+      url: "account/finance-year"
+    },
+    {
+      title: "opening Balance",
+      Component: FinanceYear,
+      url: "account/opening-balance"
+    },
+    {
+      title: "debit Voucher",
+      Component: FinanceYear,
+      url: "account/debit-voucher"
+    },
+    {
+      title: "credit voucher",
+      Component: FinanceYear,
+      url: "account/credit-voucher"
     },
     
     
@@ -137,7 +157,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        {/* <NavMain items={data.navMain} /> */}
+        <NavMain items={data.navMain} />
         {/* <NavDocuments items={data.documents} /> */}
         {/* <NavSecondary items={data.navSecondary} className="mt-auto" /> */}
       </SidebarContent>

@@ -1,4 +1,6 @@
 import App from "@/App";
+import CreditVoucher from "@/features/account/pages/CreditVoucher";
+import DebitVoucher from "@/features/account/pages/DebitVoucher";
 import FinanceYear from "@/features/account/pages/FinanceYear";
 import OpeningBalance from "@/features/account/pages/OpeningBalance";
 
@@ -22,6 +24,18 @@ export const router = createBrowserRouter([
         
             Component: OpeningBalance,
             path: "account/opening-balance"
+        
+    },
+    {
+        
+            Component: DebitVoucher,
+            path: "account/debit-voucher"
+        
+    },
+    {
+        
+            Component: CreditVoucher,
+            path: "account/credit-voucher"
         
     }
     
