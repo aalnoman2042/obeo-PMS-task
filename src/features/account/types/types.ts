@@ -9,3 +9,17 @@ export interface InfoCardProps {
   data: { name: string; amount: number }[]; // Array of objects, each with a name and amount
   color: string;
 }
+
+export interface OpeningBalanceFormData {
+  headOfAccount: string;
+  date: string;
+  totalAmount: string;
+  remark: string;
+}
+
+export interface FinanceYearFormData {
+  title: string;
+  fromDate: string;
+  toDate: string;
+  status: 'Active' | 'Inactive';
+}
