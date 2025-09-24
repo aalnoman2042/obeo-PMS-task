@@ -42,15 +42,30 @@ const DebitVoucher: React.FC = () => {
         <button className="bg-[#17A2B8] text-white py-2 px-4 rounded hover:bg-green-600">
           + Add debit Voucher
         </button>
-        <h4>account <span className="text-green-600"> - credit voucher</span></h4>
+        <h4>account <span className="text-green-600"> - Debit voucher</span></h4>
       </div>
 
       {/* Filter and Title Section */}
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-semibold">Credit Voucher List</h1>
+        <h1 className="text-2xl font-semibold">Debit Voucher List</h1>
         <button className="flex items-center gap-2 border-[#17A2B8] border py-2 px-4 rounded hover:bg-[#17A2B8] hover:text-white transition-all">
           <FaFilter /> Filter
         </button>
+      </div>
+      {/* Show Entries Dropdown */}
+      <div className="mb-4">
+        <span>Show </span>
+        <select
+        //   value={entriesPerPage} 
+        //   onChange={handleEntriesChange}
+          className="border py-2 px-3 rounded"
+        >
+          <option value={5}>5</option>
+          <option value={10}>10</option>
+          <option value={15}>15</option>
+          <option value={20}>20</option>
+        </select>
+        <span> entries</span>
       </div>
 
       {/* Table */}

@@ -60,6 +60,22 @@ const CreditVoucher: React.FC = () => {
         </button>
       </div>
 
+       {/* Show Entries Dropdown */}
+      <div className="mb-4">
+        <span>Show </span>
+        <select
+        //   value={entriesPerPage} 
+        //   onChange={handleEntriesChange}
+          className="border py-2 px-3 rounded"
+        >
+          <option value={5}>5</option>
+          <option value={10}>10</option>
+          <option value={15}>15</option>
+          <option value={20}>20</option>
+        </select>
+        <span> entries</span>
+      </div>
+
       {/* Table */}
       <table className="table-auto w-full border-collapse">
         <thead>
