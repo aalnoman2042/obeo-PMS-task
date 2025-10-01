@@ -17,7 +17,6 @@ export function ChartAreaInteractive() {
     
   <div>
     <DashboardOverview></DashboardOverview>
-    <h2>hello</h2>
       <div className="grid md:grid-cols-2 grid-cols-1">
      <div className="">
       {/* chart of every day */}

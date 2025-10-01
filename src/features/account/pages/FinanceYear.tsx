@@ -1,108 +1,212 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { FinanceYearFormData } from '../types/types'; // Assuming you have this type defined
+import { CalendarIcon } from 'lucide-react'; // For the DatePicker icon
+import { format } from 'date-fns'; // For formatting the date display
+
+// --- SHADCN/UI IMPORTS (MOCKING for illustration) ---
+// Assuming you have these components configured from shadcn/ui
+import { Button } from '@/components/ui/button';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Calendar } from '@/components/ui/calendar'; // The date picker calendar component
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'; // For DatePicker dropdown
+import { cn } from '@/lib/utils'; // Utility for combining tailwind classes
 
 const FinanceYear: React.FC = () => {
-  const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm<FinanceYearFormData>();
+  // 1. Initialize useForm and set default values (especially for status and dates)
+  const form = useForm<FinanceYearFormData>({
+    defaultValues: {
+      title: '',
+      fromDate: '', // Will be set by DatePicker, but needed for type/initial state
+      toDate: '',   // Will be set by DatePicker
+      status: 'Active', // Default status set here
+    },
+  });
+
+  const { handleSubmit, formState: { errors }, reset, control, setValue } = form;
 
   const loading = false; // development purpose
   const error = false; // development purpose
 
-  const [status, setStatus] = useState<'Active' | 'Inactive'>('Active');  // Initially set to 'Active'
-
   // Form submission handler
   const onSubmit = (data: FinanceYearFormData) => {
-    console.log(data);  // For now, log the data. Later, dispatch to Redux or make an API call
-    reset();  // Reset form after submission
+    // In a real application, data.fromDate and data.toDate will be Date objects,
+    // you might need to convert them to strings (e.g., ISO string) before an API call.
+    console.log({
+        ...data,
+        fromDate: data.fromDate ? format(new Date(data.fromDate), 'yyyy-MM-dd') : null,
+        toDate: data.toDate ? format(new Date(data.toDate), 'yyyy-MM-dd') : null,
+    });
+    reset(); // Reset form after submission
   };
 
-  // Handle status change directly with React Hook Form's setValue for cleaner code
-  const handleStatusChange = (status: 'Active' | 'Inactive') => {
-    setStatus(status);  // Update local state for status
-    setValue('status', status);  // Update status in React Hook Form
-  };
+
 
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Financial Year</h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        {/* Title */}
-        <div>
-          <label className="block text-sm font-medium mb-2" htmlFor="title">Title</label>
-          <input
-            type="text"
-            id="title"
-            placeholder="2025-2025"
-            {...register('title', { required: 'Title is required' })}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md"
+      <Form {...form}>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+
+          {/* Title Field */}
+          <FormField
+            control={control}
+            name="title"
+            rules={{ required: 'Title is required' }}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Title</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="2025-2026"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-          {errors.title && <p className="text-red-500 text-xs">{errors.title.message}</p>}
-        </div>
 
-        {/* From Date */}
-        <div>
-          <label className="block text-sm font-medium mb-2" htmlFor="fromDate">From Date</label>
-          <input
-            type="date"
-            id="fromDate"
-            {...register('fromDate', { required: 'From date is required' })}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md"
+          {/* From Date Field  */}
+          <FormField
+            control={control}
+            name="fromDate"
+            rules={{ required: 'From date is required' }}
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel>From Date</FormLabel>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant={'outline'}
+                        className={cn(
+                          'w-full justify-start text-left font-normal px-4 py-2 border border-gray-300 rounded-md',
+                          !field.value && 'text-muted-foreground'
+                        )}
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {field.value ? format(new Date(field.value), 'PPP') : <span>Pick a date</span>}
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={field.value ? new Date(field.value) : undefined}
+                      onSelect={(date) => {
+                        // Set the value as a Date object or null
+                        field.onChange(date ? date.toISOString() : '');
+                      }}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-          {errors.fromDate && <p className="text-red-500 text-xs">{errors.fromDate.message}</p>}
-        </div>
 
-        {/* To Date */}
-        <div>
-          <label className="block text-sm font-medium mb-2" htmlFor="toDate">To Date</label>
-          <input
-            type="date"
-            id="toDate"
-            {...register('toDate', { required: 'To date is required' })}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md"
+          {/* To Date Field */}
+          <FormField
+            control={control}
+            name="toDate"
+            rules={{ required: 'To date is required' }}
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel>To Date</FormLabel>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant={'outline'}
+                        className={cn(
+                          'w-full justify-start text-left font-normal px-4 py-2 border border-gray-300 rounded-md',
+                          !field.value && 'text-muted-foreground'
+                        )}
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {field.value ? format(new Date(field.value), 'PPP') : <span>Pick a date</span>}
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={field.value ? new Date(field.value) : undefined}
+                      onSelect={(date) => {
+                        // Set the value as a Date object or null
+                        field.onChange(date ? date.toISOString() : '');
+                      }}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-          {errors.toDate && <p className="text-red-500 text-xs">{errors.toDate.message}</p>}
-        </div>
 
-        {/* Status */}
-        <div>
-          <label className="block text-sm font-medium mb-2">Status</label>
-          <div className="flex items-center">
-            <input
-              type="radio"
-              id="active"
-              value="Active"
-              {...register('status', { required: 'Status is required' })}
-              checked={status === 'Active'}
-              onChange={() => handleStatusChange('Active')}
-              className="mr-2"
-            />
-            <label htmlFor="active" className="ml-2">Active</label>
+          {/* Status Field  */}
+          <FormField
+            control={control}
+            name="status"
+            rules={{ required: 'Status is required' }}
+            render={({ field }) => (
+              <FormItem className="space-y-3">
+                <FormLabel>Status</FormLabel>
+                <FormControl>
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    className="flex items-center space-x-4"
+                  >
+                    <FormItem className="flex items-center space-x-2">
+                      <FormControl>
+                        <RadioGroupItem value="Active" id="active" />
+                      </FormControl>
+                      <FormLabel htmlFor="active" className="font-normal cursor-pointer">
+                        Active
+                      </FormLabel>
+                    </FormItem>
+                    <FormItem className="flex items-center space-x-2">
+                      <FormControl>
+                        <RadioGroupItem value="Inactive" id="inactive" />
+                      </FormControl>
+                      <FormLabel htmlFor="inactive" className="font-normal cursor-pointer">
+                        Inactive
+                      </FormLabel>
+                    </FormItem>
+                  </RadioGroup>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            <input
-              type="radio"
-              id="inactive"
-              value="Inactive"
-              {...register('status', { required: 'Status is required' })}
-              checked={status === 'Inactive'}
-              onChange={() => handleStatusChange('Inactive')}
-              className="ml-4"
-            />
-            <label htmlFor="inactive" className="ml-2">Inactive</label>
+          {/* Submit Button */}
+          <div>
+            <Button
+              type="submit"
+              disabled={loading}
+              className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-md"
+            >
+              {loading ? 'Saving...' : 'Save'}
+            </Button>
           </div>
-          {errors.status && <p className="text-red-500 text-xs">{errors.status.message}</p>}
-        </div>
-
-        {/* Submit Button */}
-        <div>
-          <button
-            type="submit"
-            disabled={loading}
-            className="bg-green-500 text-white px-6 py-2 rounded-md"
-          >
-            {loading ? 'Saving...' : 'Save'}
-          </button>
-        </div>
-      </form>
+        </form>
+      </Form>
 
       {/* Display errors */}
       {error && <div className="mt-4 text-red-500">{error}</div>}

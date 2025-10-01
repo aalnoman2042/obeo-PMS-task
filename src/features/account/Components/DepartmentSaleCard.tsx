@@ -3,7 +3,7 @@ import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/ca
 // Dynamic revenue data as an example
 const DepartmentSaleCard = ({ revenueData }: { revenueData: { roomRevenue: number, restaurantRevenue: number, banquetRevenue: number, otherRevenue: number } }) => {
     return (
-        <div className="w-full max-w-xl mx-auto">
+        <div className=" w-full h-full mx-auto">
             <Card className="@container/card">
                 <CardHeader>
                     {/* Card description with fixed background color */}

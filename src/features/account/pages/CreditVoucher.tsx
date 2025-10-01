@@ -1,150 +1,238 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import { FaFilter } from 'react-icons/fa';
 
+// Shadcn/ui Components
+import { Button } from '@/components/ui/button';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { Voucher } from '../types/types';
+
 // Sample data type for your voucher
-interface Voucher {
-  id: string;
-  date: string;
-  amount: number;
-  status: string;
-}
+
+
+// Initial sample data
+const initialVouchers: Voucher[] = [
+  { id: 'CV001', date: '2025-09-23', amount: 10000, status: 'Paid' },
+  { id: 'CV002', date: '2025-09-24', amount: 2500, status: 'Pending' },
+  { id: 'CV003', date: '2025-09-25', amount: 5000, status: 'Paid' },
+];
 
 const CreditVoucher: React.FC = () => {
-  // Sample state to store vouchers (this could be replaced with real data fetching logic)
-  const [vouchers, setVouchers] = useState<Voucher[]>([]);
+  // Master list of all vouchers
+  const [vouchers, setVouchers] = useState<Voucher[]>(initialVouchers);
+  // List of vouchers to display after filtering
+  const [filteredVouchers, setFilteredVouchers] = useState<Voucher[]>(vouchers);
 
+  // State for modals and pop-ups
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  // State for form data
+  const [newVoucher, setNewVoucher] = useState<Omit<Voucher, 'id'>>({ date: new Date().toISOString().split('T')[0], amount: 0, status: 'Pending' });
+  const [editingVoucher, setEditingVoucher] = useState<Voucher | null>(null);
+  const [filterTerm, setFilterTerm] = useState('');
+  
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  // Simulate fetching data from an API (replace with real API call)
+  // Effect to apply filtering
   useEffect(() => {
-    // This would be a call to your backend API, replace it with real API fetching logic
-    const fetchVouchers = () => {
-      // Example: Replace with actual data from backend
-      const fetchedVouchers: Voucher[] = [
-        { id: 'CV001', date: '2025-09-23', amount: 10000, status: 'Paid' },
-        { id: 'CV002', date: '2025-09-24', amount: 2500, status: 'Pending' },
-        { id: 'CV003', date: '2025-09-25', amount: 5000, status: 'Paid' },
-      ];
+    const results = vouchers.filter(voucher =>
+      voucher.id.toLowerCase().includes(filterTerm.toLowerCase())
+    );
+    setFilteredVouchers(results);
+  }, [filterTerm, vouchers]);
+  
+  // --- CRUD Functions ---
 
-      // Update state with fetched data
-      setVouchers(fetchedVouchers);
-      setTotalPages(3); // Example, replace with actual number of pages from your backend
-    };
+  // ADD: Handle form submission to add a new voucher
+  const handleAddVoucher = (e: FormEvent) => {
+    e.preventDefault();
+    const newId = `CV${(vouchers.length + 1).toString().padStart(3, '0')}`;
+    setVouchers([{ id: newId, ...newVoucher }, ...vouchers]);
+    setNewVoucher({ date: new Date().toISOString().split('T')[0], amount: 0, status: 'Pending' });
+    setIsAddModalOpen(false);
+  };
 
-    fetchVouchers();
-  }, [currentPage]);
+  // DELETE: Remove a voucher after confirmation
+  const handleDelete = (voucherId: string) => {
+    if (window.confirm('Are you sure you want to delete this voucher?')) {
+      setVouchers(vouchers.filter((v) => v.id !== voucherId));
+    }
+  };
 
-  // Function to handle actions (e.g., edit or delete)
-  const handleAction = (voucherId: string, action: string) => {
-    console.log(`${action} credit voucher with ID: ${voucherId}`);
-    // You can make an API call to perform actions like Edit or Delete here
+  // EDIT (Step 1): Open the edit modal with the voucher's data
+  const handleEditClick = (voucher: Voucher) => {
+    setEditingVoucher(voucher);
+    setIsEditModalOpen(true);
+  };
+  
+  // EDIT (Step 2): Update the voucher list on form submission
+  const handleUpdateVoucher = (e: FormEvent) => {
+    e.preventDefault();
+    if (editingVoucher) {
+      setVouchers(vouchers.map((v) => v.id === editingVoucher.id ? editingVoucher : v));
+      setIsEditModalOpen(false);
+      setEditingVoucher(null);
+    }
+  };
+
+  // --- Helper for form input changes ---
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>, isEdit = false) => {
+    const { name, value } = e.target;
+    const valueToSet = name === 'amount' ? parseFloat(value) : value;
+
+    if (isEdit && editingVoucher) {
+      setEditingVoucher({ ...editingVoucher, [name]: valueToSet });
+    } else {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      setNewVoucher(prev => ({ ...prev, [name]: valueToSet as any }));
+    }
   };
 
   return (
     <div className="container mx-auto p-4">
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
-        <button className="bg-[#17A2B8] text-white py-2 px-4 rounded hover:bg-green-600">
+        <Button onClick={() => setIsAddModalOpen(true)} className="bg-[#17A2B8] text-white hover:bg-cyan-600">
           + Add Credit Voucher
-        </button>
-        <h4>account <span className="text-green-600"> - credit voucher</span></h4>
+        </Button>
+        <h4>account <span className="text-green-600">- credit voucher</span></h4>
       </div>
 
       {/* Filter and Title Section */}
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-semibold">Credit Voucher List</h1>
-        <button className="flex items-center gap-2 border-[#17A2B8] border py-2 px-4 rounded hover:bg-[#17A2B8] hover:text-white transition-all">
-          <FaFilter /> Filter
-        </button>
+        <div className="relative">
+          <Button variant="outline" onClick={() => setIsFilterOpen(!isFilterOpen)} className="flex items-center gap-2 border-[#17A2B8] hover:bg-[#17A2B8] hover:text-white">
+            <FaFilter /> Filter
+          </Button>
+          {isFilterOpen && (
+            <div className="absolute top-12 right-0 bg-white border rounded shadow-lg p-4 w-64 z-10">
+              <label htmlFor="filter" className="block text-sm font-medium text-gray-700">Filter by Voucher ID</label>
+              <input type="text" id="filter" value={filterTerm} onChange={(e) => setFilterTerm(e.target.value)} placeholder="e.g., CV001" className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"/>
+            </div>
+          )}
+        </div>
       </div>
-
-       {/* Show Entries Dropdown */}
+      
+      {/* Show Entries Dropdown */}
       <div className="mb-4">
         <span>Show </span>
-        <select
-        //   value={entriesPerPage} 
-        //   onChange={handleEntriesChange}
-          className="border py-2 px-3 rounded"
-        >
-          <option value={5}>5</option>
-          <option value={10}>10</option>
-          <option value={15}>15</option>
-          <option value={20}>20</option>
+        <select className="border py-2 px-3 rounded">
+          <option value={5}>5</option><option value={10}>10</option><option value={15}>15</option><option value={20}>20</option>
         </select>
         <span> entries</span>
       </div>
 
-      {/* Table */}
-      <table className="table-auto w-full border-collapse">
-        <thead>
-          <tr className="border-b">
-            <th className="py-2 px-4 text-left">Voucher ID</th>
-            <th className="py-2 px-4 text-left">Date</th>
-            <th className="py-2 px-4 text-left">Amount</th>
-            <th className="py-2 px-4 text-left">Status</th>
-            <th className="py-2 px-4 text-left">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {vouchers.length > 0 ? (
-            vouchers.map((voucher) => (
-              <tr key={voucher.id} className="border-b">
-                <td className="py-2 px-4">{voucher.id}</td>
-                <td className="py-2 px-4">{voucher.date}</td>
-                <td className="py-2 px-4">{voucher.amount}</td>
-                <td className="py-2 px-4">{voucher.status}</td>
-                <td className="py-2 px-4">
-                  {/* Edit and Delete buttons */}
-                  <button
-                    onClick={() => handleAction(voucher.id, 'Edit')}
-                    className="bg-blue-500 text-white py-1 px-3 rounded mr-2 hover:bg-blue-600"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleAction(voucher.id, 'Delete')}
-                    className="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600"
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan={5} className="py-2 px-4 text-center">
-                No data available in table
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+      {/* Shadcn Table */}
+      <div className="rounded-md border">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Voucher ID</TableHead><TableHead>Date</TableHead><TableHead>Amount</TableHead><TableHead>Status</TableHead><TableHead>Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {filteredVouchers.length > 0 ? (
+              filteredVouchers.map((voucher) => (
+                <TableRow key={voucher.id}>
+                  <TableCell className="font-medium">{voucher.id}</TableCell>
+                  <TableCell>{voucher.date}</TableCell>
+                  <TableCell>{voucher.amount.toFixed(2)}</TableCell>
+                  <TableCell>
+                    <span className={`px-2 py-1 text-xs font-semibold rounded-full ${voucher.status === 'Paid' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
+                      {voucher.status}
+                    </span>
+                  </TableCell>
+                  <TableCell>
+                    <Button variant="outline" size="sm" onClick={() => handleEditClick(voucher)} className="mr-2">Edit</Button>
+                    <Button variant="destructive" size="sm" onClick={() => handleDelete(voucher.id)}>Delete</Button>
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={5} className="h-24 text-center">No data available in table</TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
 
       {/* Pagination */}
       <div className="flex justify-between items-center mt-4">
-        {/* Previous Button */}
-        <button
-          onClick={() => setCurrentPage(Math.max(currentPage - 1, 1))}
-          className="bg-gray-300 text-gray-700 py-2 px-4 rounded hover:bg-gray-400"
-        >
-          Previous
-        </button>
-
-        {/* Page Info */}
-        <span className="text-gray-700">
-          Page {currentPage} of {totalPages}
-        </span>
-
-        {/* Next Button */}
-        <button
-          onClick={() => setCurrentPage(Math.min(currentPage + 1, totalPages))}
-          className="bg-gray-300 text-gray-700 py-2 px-4 rounded hover:bg-gray-400"
-        >
-          Next
-        </button>
+        <Button variant="outline" onClick={() => setCurrentPage(Math.max(currentPage - 1, 1))}>Previous</Button>
+        <span className="text-gray-700">Page {currentPage} of {totalPages}</span>
+        <Button variant="outline" onClick={() => setCurrentPage(Math.min(currentPage + 1, totalPages))}>Next</Button>
       </div>
+
+      {/* ADD VOUCHER MODAL */}
+      {isAddModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-40 flex justify-center items-center">
+          <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-md z-50">
+            <h2 className="text-xl font-semibold mb-4">Add New Credit Voucher</h2>
+            <form onSubmit={handleAddVoucher} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Date</label>
+                <input type="date" name="date" value={newVoucher.date} onChange={handleInputChange} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3" required />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Amount</label>
+                <input type="number" name="amount" value={newVoucher.amount} onChange={handleInputChange} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3" required />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Status</label>
+                <select name="status" value={newVoucher.status} onChange={handleInputChange} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3" required>
+                  <option value="Pending">Pending</option><option value="Paid">Paid</option>
+                </select>
+              </div>
+              <div className="mt-6 flex justify-end gap-3">
+                <Button type="button" variant="secondary" onClick={() => setIsAddModalOpen(false)}>Cancel</Button>
+                <Button type="submit" className="bg-[#17A2B8] text-white hover:bg-cyan-600">Save Voucher</Button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* EDIT VOUCHER MODAL */}
+      {isEditModalOpen && editingVoucher && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-40 flex justify-center items-center">
+          <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-md z-50">
+            <h2 className="text-xl font-semibold mb-4">Edit Credit Voucher: {editingVoucher.id}</h2>
+            <form onSubmit={handleUpdateVoucher} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Date</label>
+                <input type="date" name="date" value={editingVoucher.date} onChange={(e) => handleInputChange(e, true)} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3" required />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Amount</label>
+                <input type="number" name="amount" value={editingVoucher.amount} onChange={(e) => handleInputChange(e, true)} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3" required />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Status</label>
+                <select name="status" value={editingVoucher.status} onChange={(e) => handleInputChange(e, true)} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3" required>
+                  <option value="Pending">Pending</option><option value="Paid">Paid</option>
+                </select>
+              </div>
+              <div className="mt-6 flex justify-end gap-3">
+                <Button type="button" variant="secondary" onClick={() => setIsEditModalOpen(false)}>Cancel</Button>
+                <Button type="submit" className="bg-[#17A2B8] text-white hover:bg-cyan-600">Update Voucher</Button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

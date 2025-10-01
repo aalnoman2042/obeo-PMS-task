@@ -23,3 +23,16 @@ export interface FinanceYearFormData {
   toDate: string;
   status: 'Active' | 'Inactive';
 }
+
+export interface Voucher {
+  id: string;
+  date: string;
+  amount: number;
+  status: 'Paid' | 'Pending'; // Using a union type for status
+}
+export interface DVoucher {
+  id: string;
+  date: string;
+  accountName: string;
+  amount: number;
+}

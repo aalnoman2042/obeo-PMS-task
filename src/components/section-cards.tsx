@@ -40,7 +40,7 @@ export function SectionCards() {
         {/* department sale card */}
         <DepartmentSaleCard revenueData={revenueData} />
         {/* account card */}
-        <AccountRecivableCard reciveORpay={reciveORpay} />
+        <AccountRecivableCard  reciveORpay={reciveORpay} />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">

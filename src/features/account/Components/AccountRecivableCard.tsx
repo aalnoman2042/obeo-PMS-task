@@ -4,8 +4,8 @@ import { reciveORpay } from "../types/types";
 
 const AccountReceivableCard: React.FC<{ reciveORpay: reciveORpay }> = ({ reciveORpay }) => {
     return (
-        <div className="w-full max-w-xl mx-auto">
-            <Card className="@container/card">
+        <div className="w-full h-full mx-auto">
+            <Card className="@container/card h-full">
                 <CardHeader>
                     <CardDescription className="bg-[#17A2B8] rounded-b-lg pl-3 py-3 text-white">
                         Account Receivable / Payable
