@@ -1,6 +1,6 @@
-import DepartmentSaleCard from "@/features/account/Components/DepartmentSaleCard";
-import AccountRecivableCard from "@/features/account/Components/AccountRecivableCard";
-import InfoCard from "@/features/account/Components/InfoCard";
+import DepartmentSaleCard from "@/features/account/Components/dashboard_components/DepartmentSaleCard";
+import AccountRecivableCard from "@/features/account/Components/dashboard_components/AccountRecivableCard";
+import InfoCard from "@/features/account/Components/dashboard_components/InfoCard";
 
 // Dummy data
 const cashData = [

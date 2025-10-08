@@ -12,8 +12,8 @@ export interface InfoCardProps {
 
 export interface OpeningBalanceFormData {
   headOfAccount: string;
-  date: string;
-  totalAmount: string;
+  date: Date; 
+  totalAmount: number; 
   remark: string;
 }
 
@@ -34,5 +34,10 @@ export interface DVoucher {
   id: string;
   date: string;
   accountName: string;
+  amount: number;
+}
+export interface contraVoucher {
+  id: string;
+  date: string;
   amount: number;
 }

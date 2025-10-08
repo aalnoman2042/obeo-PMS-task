@@ -1,4 +1,5 @@
 import App from "@/App";
+import ContraVoucher from "@/features/account/pages/ContraVoucher";
 import CreditVoucher from "@/features/account/pages/CreditVoucher";
 import DebitVoucher from "@/features/account/pages/DebitVoucher";
 import FinanceYear from "@/features/account/pages/FinanceYear";
@@ -36,6 +37,13 @@ export const router = createBrowserRouter([
         
             Component: CreditVoucher,
             path: "account/credit-voucher"
+        
+    },
+    
+    {
+        
+            Component:ContraVoucher ,
+            path: "account/contra-voucher"
         
     }
     

@@ -32,6 +32,7 @@ import { NavDocuments } from "./nav-documents"
 import { NavSecondary } from "./nav-secondary"
 import { NavMain } from "./nav-main"
 import FinanceYear from "@/features/account/pages/FinanceYear"
+import ContraVoucher from "@/features/account/pages/ContraVoucher"
 
 const data = {
   
@@ -60,6 +61,11 @@ const data = {
       title: "credit voucher",
       Component: FinanceYear,
       url: "account/credit-voucher"
+    },
+    {
+      title: "contra voucher",
+      Component: ContraVoucher,
+      url: "account/contra-voucher"
     },
     
     

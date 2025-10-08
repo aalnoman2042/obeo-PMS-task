@@ -1,5 +1,5 @@
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { InfoCardProps } from "../types/types";
+import { InfoCardProps } from "../../types/types";
 
 
 

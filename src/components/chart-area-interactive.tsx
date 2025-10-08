@@ -1,8 +1,8 @@
 "use client"
 
-import DayChartOfRevenue from "@/features/account/Components/dayChartOfRevenue"
-import MonthlyRevenueChart from "@/features/account/Components/MonthlyRevenueChart"
-import DashboardOverview from "@/features/account/Components/DashboardOverview"
+import DayChartOfRevenue from "@/features/account/Components/dashboard_components/dayChartOfRevenue"
+import MonthlyRevenueChart from "@/features/account/Components/dashboard_components/MonthlyRevenueChart"
+import DashboardOverview from "@/features/account/Components/dashboard_components/DashboardOverview"
 
 export const description = "An interactive area chart"
 
