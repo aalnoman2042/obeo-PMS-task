@@ -41,3 +41,15 @@ export interface contraVoucher {
   date: string;
   amount: number;
 }
+
+export interface contraFilterFormData {
+  voucherId: string;
+  amount: number | string;
+  date: Date | undefined;
+}
+
+export interface contraNewVoucherFormData {
+  id: string;
+  amount: number;
+  date: Date; // Use Date object for React Hook Form
+}

@@ -13,6 +13,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Voucher } from '../types/types';
+import { TrashIcon } from 'lucide-react';
 
 // Sample data type for your voucher
 
@@ -34,6 +35,10 @@ const CreditVoucher: React.FC = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+// delete state
+  const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
+  const [voucherToDelete, setVoucherToDelete] = useState<string | null>(null);
+
 
   // State for form data
   const [newVoucher, setNewVoucher] = useState<Omit<Voucher, 'id'>>({ date: new Date().toISOString().split('T')[0], amount: 0, status: 'Pending' });
@@ -64,10 +69,22 @@ const CreditVoucher: React.FC = () => {
   };
 
   // DELETE: Remove a voucher after confirmation
-  const handleDelete = (voucherId: string) => {
-    if (window.confirm('Are you sure you want to delete this voucher?')) {
-      setVouchers(vouchers.filter((v) => v.id !== voucherId));
+   const handleDelete = (voucherId: string) => {
+    setVoucherToDelete(voucherId);
+    setIsDeleteConfirmOpen(true);
+  };
+  const confirmDelete = () => {
+    if (voucherToDelete) {
+      setVouchers(vouchers.filter((v) => v.id !== voucherToDelete));
     }
+    setVoucherToDelete(null);
+    setIsDeleteConfirmOpen(false);
+  };
+
+  // DELETE CANCELLATION: Close the confirmation modal
+  const cancelDelete = () => {
+    setVoucherToDelete(null);
+    setIsDeleteConfirmOpen(false);
   };
 
   // EDIT (Step 1): Open the edit modal with the voucher's data
@@ -233,6 +250,39 @@ const CreditVoucher: React.FC = () => {
           </div>
         </div>
       )}
+      {/*  */}
+      {isDeleteConfirmOpen && voucherToDelete && (
+        <div className="fixed inset-0 bg-black bg-opacity-60 z-40 flex justify-center items-center p-4">
+          <div className="bg-white p-8 rounded-xl shadow-2xl w-full max-w-sm z-50 animate-in fade-in-0 zoom-in-95 text-center">
+            <div className="mb-4 flex justify-center">
+                <TrashIcon className="w-10 h-10 text-red-500"/>
+            </div>
+            <h2 className="text-xl font-bold mb-2 text-gray-800">Confirm Deletion</h2>
+            <p className="text-gray-600 mb-6">
+                Are you sure you want to delete voucher **{voucherToDelete}**? This action cannot be undone.
+            </p>
+            <div className="flex justify-center gap-3">
+              <Button 
+                type="button" 
+                variant="secondary" 
+                onClick={cancelDelete} 
+                className="px-6"
+              >
+                Cancel
+              </Button>
+              <Button 
+                type="button" 
+                variant="destructive" 
+                onClick={confirmDelete} 
+                className="px-6"
+              >
+                Delete
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };
