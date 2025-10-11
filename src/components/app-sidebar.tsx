@@ -3,7 +3,7 @@ import * as React from "react"
 import {
   IconCamera,
 
-  IconDashboard,
+
 
   IconFileAi,
   IconFileDescription,
@@ -28,11 +28,11 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { NavDocuments } from "./nav-documents"
-import { NavSecondary } from "./nav-secondary"
+
 import { NavMain } from "./nav-main"
 import FinanceYear from "@/features/account/pages/FinanceYear"
 import ContraVoucher from "@/features/account/pages/ContraVoucher"
+import JournalVoucher from "@/features/account/pages/JournalVoucher"
 
 const data = {
   
@@ -66,6 +66,11 @@ const data = {
       title: "contra voucher",
       Component: ContraVoucher,
       url: "account/contra-voucher"
+    },
+    {
+      title: "Journal Voucher",
+      Component: JournalVoucher,
+      url: "account/journal-voucher"
     },
     
     

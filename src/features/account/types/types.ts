@@ -53,3 +53,20 @@ export interface contraNewVoucherFormData {
   amount: number;
   date: Date; // Use Date object for React Hook Form
 }
+
+export interface journalVoucher {
+  id: string;
+  date: string;
+  amount: number;
+}
+
+export interface JournalFilterFormData {
+  voucherId: string;
+  amount: number | string;
+  date: Date | undefined;
+}
+export interface JournalNewVoucherFormData {
+  id: string;
+  amount: number;
+  date: Date; // Use Date object for React Hook Form
+}
