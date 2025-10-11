@@ -28,7 +28,7 @@ export const VoucherFilterForm: React.FC<VoucherFilterFormProps> = ({ onSubmit }
   });
 
   const handleClear = () => {
-    reset(); // Reset form to default values
+    reset(); 
     onSubmit({}); // Submit empty object to clear filters in parent state
   };
 
@@ -61,7 +61,7 @@ export const VoucherFilterForm: React.FC<VoucherFilterFormProps> = ({ onSubmit }
           <Label htmlFor="date" className="text-sm font-medium text-gray-700 mb-1">
             Date
           </Label>
-          {/* Date Picker logic using shadcn/ui components and lucide-react icon */}
+          
           <Controller
             control={control}
             name="date"
