@@ -296,7 +296,7 @@ const JournalVoucher: React.FC = () => {
                   </div>
                   <div>
                     <Label htmlFor="modal-amount" className="block text-sm font-medium text-gray-700 mb-1">Amount</Label>
-                    <Input id="modal-amount" type="number" step="0.01" {...registerModal("amount", { required: "Amount is required", valueAsNumber: true, })} className="h-10 border-gray-300"/>
+                    <Input id="modal-amount" type="text" step="0.01" {...registerModal("amount", { required: "Amount is required", valueAsNumber: true, })} className="h-10 border-gray-300"/>
                     {errors.amount && (<p className="text-red-500 text-xs mt-1">{errors.amount.message}</p>)}
                   </div>
                   <div>

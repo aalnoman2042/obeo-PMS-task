@@ -138,7 +138,7 @@ const OpeningBalance: React.FC = () => {
             Total Amount
           </Label>
           <Input
-            type="number"
+            type="text"
             id="totalAmount"
             step="0.01"
             {...register("totalAmount", {

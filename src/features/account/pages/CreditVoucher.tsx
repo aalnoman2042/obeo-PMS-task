@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import { FaFilter } from 'react-icons/fa';
+import { format } from "date-fns";
 
 // Shadcn/ui Components
 import { Button } from '@/components/ui/button';
@@ -12,11 +13,15 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { CalendarIcon, TrashIcon } from "lucide-react";
 import { Voucher } from '../types/types';
-import { TrashIcon } from 'lucide-react';
-
-// Sample data type for your voucher
-
 
 // Initial sample data
 const initialVouchers: Voucher[] = [
@@ -26,50 +31,48 @@ const initialVouchers: Voucher[] = [
 ];
 
 const CreditVoucher: React.FC = () => {
-  // Master list of all vouchers
   const [vouchers, setVouchers] = useState<Voucher[]>(initialVouchers);
-  // List of vouchers to display after filtering
   const [filteredVouchers, setFilteredVouchers] = useState<Voucher[]>(vouchers);
 
-  // State for modals and pop-ups
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-// delete state
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
   const [voucherToDelete, setVoucherToDelete] = useState<string | null>(null);
 
-
-  // State for form data
-  const [newVoucher, setNewVoucher] = useState<Omit<Voucher, 'id'>>({ date: new Date().toISOString().split('T')[0], amount: 0, status: 'Pending' });
+  const [newVoucher, setNewVoucher] = useState<Omit<Voucher, 'id'>>({
+    date: new Date().toISOString().split('T')[0],
+    amount: 0,
+    status: 'Pending'
+  });
   const [editingVoucher, setEditingVoucher] = useState<Voucher | null>(null);
   const [filterTerm, setFilterTerm] = useState('');
-  
-  // Pagination state
+
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  // Effect to apply filtering
   useEffect(() => {
     const results = vouchers.filter(voucher =>
       voucher.id.toLowerCase().includes(filterTerm.toLowerCase())
     );
     setFilteredVouchers(results);
   }, [filterTerm, vouchers]);
-  
-  // --- CRUD Functions ---
 
-  // ADD: Handle form submission to add a new voucher
+  // ADD
   const handleAddVoucher = (e: FormEvent) => {
     e.preventDefault();
     const newId = `CV${(vouchers.length + 1).toString().padStart(3, '0')}`;
     setVouchers([{ id: newId, ...newVoucher }, ...vouchers]);
-    setNewVoucher({ date: new Date().toISOString().split('T')[0], amount: 0, status: 'Pending' });
+    setNewVoucher({
+      date: new Date().toISOString().split('T')[0],
+      amount: 0,
+      status: 'Pending'
+    });
     setIsAddModalOpen(false);
   };
 
-  // DELETE: Remove a voucher after confirmation
-   const handleDelete = (voucherId: string) => {
+  // DELETE
+  const handleDelete = (voucherId: string) => {
     setVoucherToDelete(voucherId);
     setIsDeleteConfirmOpen(true);
   };
@@ -80,20 +83,16 @@ const CreditVoucher: React.FC = () => {
     setVoucherToDelete(null);
     setIsDeleteConfirmOpen(false);
   };
-
-  // DELETE CANCELLATION: Close the confirmation modal
   const cancelDelete = () => {
     setVoucherToDelete(null);
     setIsDeleteConfirmOpen(false);
   };
 
-  // EDIT (Step 1): Open the edit modal with the voucher's data
+  // EDIT
   const handleEditClick = (voucher: Voucher) => {
     setEditingVoucher(voucher);
     setIsEditModalOpen(true);
   };
-  
-  // EDIT (Step 2): Update the voucher list on form submission
   const handleUpdateVoucher = (e: FormEvent) => {
     e.preventDefault();
     if (editingVoucher) {
@@ -103,7 +102,7 @@ const CreditVoucher: React.FC = () => {
     }
   };
 
-  // --- Helper for form input changes ---
+  // Input Change
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>, isEdit = false) => {
     const { name, value } = e.target;
     const valueToSet = name === 'amount' ? parseFloat(value) : value;
@@ -126,7 +125,7 @@ const CreditVoucher: React.FC = () => {
         <h4>account <span className="text-green-600">- credit voucher</span></h4>
       </div>
 
-      {/* Filter and Title Section */}
+      {/* Filter */}
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-semibold">Credit Voucher List</h1>
         <div className="relative">
@@ -141,17 +140,8 @@ const CreditVoucher: React.FC = () => {
           )}
         </div>
       </div>
-      
-      {/* Show Entries Dropdown */}
-      <div className="mb-4">
-        <span>Show </span>
-        <select className="border py-2 px-3 rounded">
-          <option value={5}>5</option><option value={10}>10</option><option value={15}>15</option><option value={20}>20</option>
-        </select>
-        <span> entries</span>
-      </div>
 
-      {/* Shadcn Table */}
+      {/* Table */}
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -186,14 +176,7 @@ const CreditVoucher: React.FC = () => {
         </Table>
       </div>
 
-      {/* Pagination */}
-      <div className="flex justify-between items-center mt-4">
-        <Button variant="outline" onClick={() => setCurrentPage(Math.max(currentPage - 1, 1))}>Previous</Button>
-        <span className="text-gray-700">Page {currentPage} of {totalPages}</span>
-        <Button variant="outline" onClick={() => setCurrentPage(Math.min(currentPage + 1, totalPages))}>Next</Button>
-      </div>
-
-      {/* ADD VOUCHER MODAL */}
+      {/* ADD MODAL */}
       {isAddModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-40 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-md z-50">
@@ -201,18 +184,43 @@ const CreditVoucher: React.FC = () => {
             <form onSubmit={handleAddVoucher} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700">Date</label>
-                <input type="date" name="date" value={newVoucher.date} onChange={handleInputChange} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3" required />
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className={cn(
+                        "w-full justify-start text-left font-normal",
+                        !newVoucher.date && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {newVoucher.date ? format(new Date(newVoucher.date), "PPP") : <span>Pick a date</span>}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0">
+                    <Calendar
+                      mode="single"
+                      selected={new Date(newVoucher.date)}
+                      onSelect={(date) => date && setNewVoucher(prev => ({ ...prev, date: date.toISOString().split("T")[0] }))}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
               </div>
+
               <div>
                 <label className="block text-sm font-medium text-gray-700">Amount</label>
-                <input type="number" name="amount" value={newVoucher.amount} onChange={handleInputChange} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3" required />
+                <input type="text" name="amount" value={newVoucher.amount} onChange={handleInputChange} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3" required />
               </div>
+
               <div>
                 <label className="block text-sm font-medium text-gray-700">Status</label>
                 <select name="status" value={newVoucher.status} onChange={handleInputChange} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3" required>
-                  <option value="Pending">Pending</option><option value="Paid">Paid</option>
+                  <option value="Pending">Pending</option>
+                  <option value="Paid">Paid</option>
                 </select>
               </div>
+
               <div className="mt-6 flex justify-end gap-3">
                 <Button type="button" variant="secondary" onClick={() => setIsAddModalOpen(false)}>Cancel</Button>
                 <Button type="submit" className="bg-[#17A2B8] text-white hover:bg-cyan-600">Save Voucher</Button>
@@ -222,7 +230,7 @@ const CreditVoucher: React.FC = () => {
         </div>
       )}
 
-      {/* EDIT VOUCHER MODAL */}
+      {/* EDIT MODAL */}
       {isEditModalOpen && editingVoucher && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-40 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-md z-50">
@@ -230,18 +238,43 @@ const CreditVoucher: React.FC = () => {
             <form onSubmit={handleUpdateVoucher} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700">Date</label>
-                <input type="date" name="date" value={editingVoucher.date} onChange={(e) => handleInputChange(e, true)} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3" required />
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className={cn(
+                        "w-full justify-start text-left font-normal",
+                        !editingVoucher.date && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {editingVoucher.date ? format(new Date(editingVoucher.date), "PPP") : <span>Pick a date</span>}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0">
+                    <Calendar
+                      mode="single"
+                      selected={new Date(editingVoucher.date)}
+                      onSelect={(date) => date && setEditingVoucher(prev => prev ? { ...prev, date: date.toISOString().split("T")[0] } : prev)}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
               </div>
+
               <div>
                 <label className="block text-sm font-medium text-gray-700">Amount</label>
-                <input type="number" name="amount" value={editingVoucher.amount} onChange={(e) => handleInputChange(e, true)} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3" required />
+                <input type="text" name="amount" value={editingVoucher.amount} onChange={(e) => handleInputChange(e, true)} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3" required />
               </div>
+
               <div>
                 <label className="block text-sm font-medium text-gray-700">Status</label>
                 <select name="status" value={editingVoucher.status} onChange={(e) => handleInputChange(e, true)} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3" required>
-                  <option value="Pending">Pending</option><option value="Paid">Paid</option>
+                  <option value="Pending">Pending</option>
+                  <option value="Paid">Paid</option>
                 </select>
               </div>
+
               <div className="mt-6 flex justify-end gap-3">
                 <Button type="button" variant="secondary" onClick={() => setIsEditModalOpen(false)}>Cancel</Button>
                 <Button type="submit" className="bg-[#17A2B8] text-white hover:bg-cyan-600">Update Voucher</Button>
@@ -250,39 +283,25 @@ const CreditVoucher: React.FC = () => {
           </div>
         </div>
       )}
-      {/*  */}
+
+      {/* DELETE CONFIRM */}
       {isDeleteConfirmOpen && voucherToDelete && (
         <div className="fixed inset-0 bg-black bg-opacity-60 z-40 flex justify-center items-center p-4">
-          <div className="bg-white p-8 rounded-xl shadow-2xl w-full max-w-sm z-50 animate-in fade-in-0 zoom-in-95 text-center">
+          <div className="bg-white p-8 rounded-xl shadow-2xl w-full max-w-sm z-50 text-center">
             <div className="mb-4 flex justify-center">
-                <TrashIcon className="w-10 h-10 text-red-500"/>
+              <TrashIcon className="w-10 h-10 text-red-500"/>
             </div>
             <h2 className="text-xl font-bold mb-2 text-gray-800">Confirm Deletion</h2>
             <p className="text-gray-600 mb-6">
-                Are you sure you want to delete voucher **{voucherToDelete}**? This action cannot be undone.
+              Are you sure you want to delete voucher <strong>{voucherToDelete}</strong>? This action cannot be undone.
             </p>
             <div className="flex justify-center gap-3">
-              <Button 
-                type="button" 
-                variant="secondary" 
-                onClick={cancelDelete} 
-                className="px-6"
-              >
-                Cancel
-              </Button>
-              <Button 
-                type="button" 
-                variant="destructive" 
-                onClick={confirmDelete} 
-                className="px-6"
-              >
-                Delete
-              </Button>
+              <Button type="button" variant="secondary" onClick={cancelDelete} className="px-6">Cancel</Button>
+              <Button type="button" variant="destructive" onClick={confirmDelete} className="px-6">Delete</Button>
             </div>
           </div>
         </div>
       )}
-
     </div>
   );
 };

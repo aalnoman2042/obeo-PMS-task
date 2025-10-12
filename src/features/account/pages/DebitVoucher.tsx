@@ -12,6 +12,9 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { DVoucher } from '../types/types';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calendar';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 
 // Expanded the data type for your voucher to be more realistic
@@ -116,16 +119,21 @@ const DebitVoucher: React.FC = () => {
       </div>
       
       {/* Show Entries Dropdown */}
-      <div className="mb-4">
-        <span>Show </span>
-        <select className="border py-2 px-3 rounded">
-          <option value={5}>5</option>
-          <option value={10}>10</option>
-          <option value={15}>15</option>
-          <option value={20}>20</option>
-        </select>
-        <span> entries</span>
-      </div>
+      <div className="mb-4 flex items-center gap-2">
+  <span>Show</span>
+  <Select defaultValue="10">
+    <SelectTrigger className="w-[80px] border">
+      <SelectValue placeholder="10" />
+    </SelectTrigger>
+    <SelectContent>
+      <SelectItem value="5">5</SelectItem>
+      <SelectItem value="10">10</SelectItem>
+      <SelectItem value="15">15</SelectItem>
+      <SelectItem value="20">20</SelectItem>
+    </SelectContent>
+  </Select>
+  <span>entries</span>
+</div>
 
       {/* Shadcn Table Used Here */}
       <div className="rounded-md border">
@@ -181,41 +189,101 @@ const DebitVoucher: React.FC = () => {
 
       {/* ADD VOUCHER MODAL (UI is the same as before) */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-40 flex justify-center items-center">
-          <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-md z-50">
-            <h2 className="text-xl font-semibold mb-4">Add New Debit Voucher</h2>
-            <form onSubmit={handleAddVoucher}>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Voucher ID</label>
-                  <input type="text" name="id" value={newVoucher.id} onChange={handleInputChange} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3" required />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Date</label>
-                  <input type="date" name="date" value={newVoucher.date} onChange={handleInputChange} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3" required />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Account Name</label>
-                  <input type="text" name="accountName" value={newVoucher.accountName} onChange={handleInputChange} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3" required />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Amount</label>
-                  <input type="number" name="amount" value={newVoucher.amount} onChange={handleInputChange} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3" required />
-                </div>
-              </div>
-              <div className="mt-6 flex justify-end gap-3">
-                {/* Shadcn Buttons Used Here */}
-                <Button type="button" variant="secondary" onClick={() => setIsModalOpen(false)}>
-                  Cancel
+  <div className="fixed inset-0 bg-black bg-opacity-50 z-40 flex justify-center items-center">
+    <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-md z-50">
+      <h2 className="text-xl font-semibold mb-4">Add New Debit Voucher</h2>
+      <form onSubmit={handleAddVoucher}>
+        <div className="space-y-4">
+          {/* Voucher ID */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Voucher ID</label>
+            <input
+              type="text"
+              name="id"
+              value={newVoucher.id}
+              onChange={handleInputChange}
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"
+              required
+            />
+          </div>
+
+          {/* Shadcn Calendar for Date */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Date</label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="w-full justify-start text-left font-normal"
+                >
+                  {newVoucher.date
+                    ? new Date(newVoucher.date).toLocaleDateString()
+                    : 'Pick a date'}
                 </Button>
-                <Button type="submit" className="bg-[#17A2B8] text-white hover:bg-cyan-600">
-                  Save Voucher
-                </Button>
-              </div>
-            </form>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={new Date(newVoucher.date)}
+                  onSelect={(date) => {
+                    if (date) {
+                      const isoDate = date.toISOString().split('T')[0];
+                      setNewVoucher((prev) => ({ ...prev, date: isoDate }));
+                    }
+                  }}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
+
+          {/* Account Name */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Account Name</label>
+            <input
+              type="text"
+              name="accountName"
+              value={newVoucher.accountName}
+              onChange={handleInputChange}
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"
+              required
+            />
+          </div>
+
+          {/* Amount */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Amount</label>
+            <input
+              type="text"
+              name="amount"
+              value={newVoucher.amount}
+              onChange={handleInputChange}
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"
+              required
+            />
           </div>
         </div>
-      )}
+
+        <div className="mt-6 flex justify-end gap-3">
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={() => setIsModalOpen(false)}
+          >
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            className="bg-[#17A2B8] text-white hover:bg-cyan-600"
+          >
+            Save Voucher
+          </Button>
+        </div>
+      </form>
+    </div>
+  </div>
+)}
+
     </div>
   );
 };
