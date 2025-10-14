@@ -21,18 +21,18 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { CalendarIcon, TrashIcon } from "lucide-react";
-import { Voucher } from '../types/types';
+import { CVoucher } from '../types/types';
 
 // Initial sample data
-const initialVouchers: Voucher[] = [
+const initialVouchers: CVoucher[] = [
   { id: 'CV001', date: '2025-09-23', amount: 10000, status: 'Paid' },
   { id: 'CV002', date: '2025-09-24', amount: 2500, status: 'Pending' },
   { id: 'CV003', date: '2025-09-25', amount: 5000, status: 'Paid' },
 ];
 
 const CreditVoucher: React.FC = () => {
-  const [vouchers, setVouchers] = useState<Voucher[]>(initialVouchers);
-  const [filteredVouchers, setFilteredVouchers] = useState<Voucher[]>(vouchers);
+  const [vouchers, setVouchers] = useState<CVoucher[]>(initialVouchers);
+  const [filteredVouchers, setFilteredVouchers] = useState<CVoucher[]>(vouchers);
 
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -40,12 +40,12 @@ const CreditVoucher: React.FC = () => {
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
   const [voucherToDelete, setVoucherToDelete] = useState<string | null>(null);
 
-  const [newVoucher, setNewVoucher] = useState<Omit<Voucher, 'id'>>({
+  const [newVoucher, setNewVoucher] = useState<Omit<CVoucher, 'id'>>({
     date: new Date().toISOString().split('T')[0],
     amount: 0,
     status: 'Pending'
   });
-  const [editingVoucher, setEditingVoucher] = useState<Voucher | null>(null);
+  const [editingVoucher, setEditingVoucher] = useState<CVoucher | null>(null);
   const [filterTerm, setFilterTerm] = useState('');
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -89,7 +89,7 @@ const CreditVoucher: React.FC = () => {
   };
 
   // EDIT
-  const handleEditClick = (voucher: Voucher) => {
+  const handleEditClick = (voucher: CVoucher) => {
     setEditingVoucher(voucher);
     setIsEditModalOpen(true);
   };

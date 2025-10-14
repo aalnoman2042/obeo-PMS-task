@@ -5,6 +5,7 @@ import DebitVoucher from "@/features/account/pages/DebitVoucher";
 import FinanceYear from "@/features/account/pages/FinanceYear";
 import JournalVoucher from "@/features/account/pages/JournalVoucher";
 import OpeningBalance from "@/features/account/pages/OpeningBalance";
+import VoucherApproval from "@/features/account/pages/VoucherApproval";
 
 import { createBrowserRouter } from "react-router";
 
@@ -52,7 +53,13 @@ export const router = createBrowserRouter([
             Component:JournalVoucher ,
             path: "account/journal-voucher"
         
-    }
+    },
+    {
+        
+            Component:VoucherApproval ,
+            path: "account/voucher-approval"
+        
+    },
     
 
   

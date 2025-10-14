@@ -33,6 +33,7 @@ import { NavMain } from "./nav-main"
 import FinanceYear from "@/features/account/pages/FinanceYear"
 import ContraVoucher from "@/features/account/pages/ContraVoucher"
 import JournalVoucher from "@/features/account/pages/JournalVoucher"
+import VoucherApproval from "@/features/account/pages/VoucherApproval"
 
 const data = {
   
@@ -71,6 +72,11 @@ const data = {
       title: "Journal Voucher",
       Component: JournalVoucher,
       url: "account/journal-voucher"
+    },
+    {
+      title: "Voucher approval",
+      Component: VoucherApproval,
+      url: "account/voucher-approval"
     },
     
     

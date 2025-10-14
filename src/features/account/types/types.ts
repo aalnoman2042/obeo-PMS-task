@@ -24,11 +24,11 @@ export interface FinanceYearFormData {
   status: 'Active' | 'Inactive';
 }
 
-export interface Voucher {
+export interface CVoucher {
   id: string;
   date: string;
   amount: number;
-  status: 'Paid' | 'Pending'; // Using a union type for status
+  status?: 'Paid' | 'Pending'; // Using a union type for status
 }
 export interface DVoucher {
   id: string;
@@ -69,4 +69,20 @@ export interface JournalNewVoucherFormData {
   id: string;
   amount: number;
   date: Date; // Use Date object for React Hook Form
+}
+
+
+export interface VoucherItem {
+    id: string; 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    [key: string]: any; // Allows for dynamic properties like date, amount, etc.
+}
+
+export interface VoucherListProps {
+    title: string;
+    data: VoucherItem[];
+    columns: {
+        key: keyof VoucherItem | string; 
+        header: string; 
+    }[];
 }
