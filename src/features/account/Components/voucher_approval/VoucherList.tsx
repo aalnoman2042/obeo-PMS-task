@@ -1,7 +1,5 @@
 import React, { useState, useMemo } from 'react';
 
-
-// Shadcn UI Components (Assuming you have them imported/aliased correctly)
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -18,7 +16,7 @@ const VoucherList: React.FC<VoucherListProps> = ({ title, data = [], columns }) 
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [entriesPerPage, setEntriesPerPage] = useState<number>(5);
 
-    // --- Core Logic for Searching and Filtering ---
+    // Logic for Searching and Filtering 
     const filteredData: VoucherItem[] = useMemo(() => {
         if (!searchTerm) return data;
         
@@ -32,7 +30,7 @@ const VoucherList: React.FC<VoucherListProps> = ({ title, data = [], columns }) 
         );
     }, [data, searchTerm]);
 
-    // ---  Logic for Pagination ---
+    //  Logic for Pagination 
     const totalEntries = filteredData.length;
     const totalPages: number = Math.ceil(totalEntries / entriesPerPage);
     const paginatedData: VoucherItem[] = useMemo(() => {
@@ -42,7 +40,7 @@ const VoucherList: React.FC<VoucherListProps> = ({ title, data = [], columns }) 
     }, [filteredData, currentPage, entriesPerPage]);
 
 
-    // --- Handlers ---
+    //Handlers 
     const handleEntriesChange = (value: string) => {
         setEntriesPerPage(Number(value));
         setCurrentPage(1);

@@ -11,7 +11,7 @@ const journalData: VoucherItem[] = [
     { id: '2023/07/20-JV-2 (Asset)', date: '2023-07-20', amount: 8000 },
     { id: '2023/07/20-JV-1 (Income)', date: '2023-07-20', amount: 2500 },
     { id: '2023/07/19-JV-1 (Other)', date: '2023-07-19', amount: 1000 },
-    // Anek data thakte pare...
+   
 ];
 const DebitVoucher: DVoucher[] = [
   { id: 'DV001', date: '2025-10-01', accountName: 'Office Supplies', amount: 1500 },
