@@ -1,4 +1,6 @@
 import App from "@/App";
+import { BalanceSheetPage } from "@/features/account/pages/BalanceSheetPage";
+// import   BalanceSheetPage  from "@/features/account/pages/BalanceSheetPage";
 import ContraVoucher from "@/features/account/pages/ContraVoucher";
 import CreditVoucher from "@/features/account/pages/CreditVoucher";
 import DebitVoucher from "@/features/account/pages/DebitVoucher";
@@ -58,6 +60,12 @@ export const router = createBrowserRouter([
         
             Component:VoucherApproval ,
             path: "account/voucher-approval"
+        
+    },
+    {
+        
+            Component:BalanceSheetPage ,
+            path: "account/balance-sheet"
         
     },
     

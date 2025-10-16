@@ -34,6 +34,8 @@ import FinanceYear from "@/features/account/pages/FinanceYear"
 import ContraVoucher from "@/features/account/pages/ContraVoucher"
 import JournalVoucher from "@/features/account/pages/JournalVoucher"
 import VoucherApproval from "@/features/account/pages/VoucherApproval"
+// import BalanceSheetPage from "@/features/account/pages/BalanceSheetPage"
+import { BalanceSheetPage } from "@/features/account/pages/BalanceSheetPage"
 
 const data = {
   
@@ -77,6 +79,11 @@ const data = {
       title: "Voucher approval",
       Component: VoucherApproval,
       url: "account/voucher-approval"
+    },
+    {
+      title: "balance sheet",
+      Component: BalanceSheetPage,
+      url: "account/balance-sheet"
     },
     
     

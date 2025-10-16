@@ -86,3 +86,31 @@ export interface VoucherListProps {
         header: string; 
     }[];
 }
+// baalnce sheet
+
+// src/types.ts
+
+// Base item with Name and Amount
+export interface AccountItem {
+  name: string;
+  amount: number;
+  total?: number; // Optional total for nested sections (we'll ignore this for calculation)
+}
+
+// Recursive structure for Sections/SubSections
+export interface ReportSection {
+  title: string;
+  items?: AccountItem[];
+  subSections?: ReportSection[]; // Recursion happens here
+}
+
+// Main structure for Assets, Liabilities, or Equity
+export interface GroupData {
+  from: string;
+  to: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any; // Use a more flexible key for 'assets', 'liabilities', etc.
+  totalAssets?: number;
+  totalLiabilities?: number;
+  totalEquity?: number;
+}
