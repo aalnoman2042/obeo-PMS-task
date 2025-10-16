@@ -2,6 +2,7 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { RecursiveRenderer } from "./RecursiveRenderer";
 
+
 interface SectionProps {
   groupName: 'ASSETS' | 'LIABILITIES' | 'EQUITY';
   data: any;

@@ -1,5 +1,4 @@
 import App from "@/App";
-import { BalanceSheetPage } from "@/features/account/pages/BalanceSheetPage";
 // import   BalanceSheetPage  from "@/features/account/pages/BalanceSheetPage";
 import ContraVoucher from "@/features/account/pages/ContraVoucher";
 import CreditVoucher from "@/features/account/pages/CreditVoucher";
@@ -8,6 +7,7 @@ import FinanceYear from "@/features/account/pages/FinanceYear";
 import JournalVoucher from "@/features/account/pages/JournalVoucher";
 import OpeningBalance from "@/features/account/pages/OpeningBalance";
 import VoucherApproval from "@/features/account/pages/VoucherApproval";
+import { BalanceSheetPage } from "@/features/account/Report/pages/BalanceSheetPage";
 
 import { createBrowserRouter } from "react-router";
 

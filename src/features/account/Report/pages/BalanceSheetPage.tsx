@@ -3,13 +3,15 @@ import  { useState, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 
 import { format } from 'date-fns';
-import { assets as assetsMock, liabilty as liabiltyMock, equity as equityMock } from '../../../app/balanceSheet/data';
+import { assets as assetsMock, liabilty as liabiltyMock, equity as equityMock } from '../../../../app/balanceSheet/data';
 
-import { ReportHeader } from '../Components/Balance_sheet/ReportHeader';
+// import { ReportHeader } from '../Components/Balance_sheet/ReportHeader';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
 import { cn } from '@/lib/utils';
-import { BalanceSheetSection } from '../Components/Balance_sheet/BalanceSheetSection';
+import { BalanceSheetSection } from '../components/Balance_sheet/BalanceSheetSection';
+import { ReportHeader } from '../components/Balance_sheet/ReportHeader';
+// import { BalanceSheetSection } from '../Components/Balance_sheet/BalanceSheetSection';
 
 
 
