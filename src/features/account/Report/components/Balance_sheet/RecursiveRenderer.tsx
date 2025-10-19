@@ -1,6 +1,7 @@
+/* eslint-disable react-refresh/only-export-components */
 import React from "react";
 import { TableCell, TableRow } from "@/components/ui/table";
-import { AccountItem, ReportSection } from "../../types/types";
+import { AccountItem, ReportSection } from "../../../types/types";
 
 // ✅ Utility: Currency Formatter
 const formatCurrency = (amount: number): string => {

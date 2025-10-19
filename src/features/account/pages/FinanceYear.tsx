@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState } from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 import { FinanceYearFormData } from '../types/types'; // Assuming you have this type defined
 import { CalendarIcon } from 'lucide-react'; // For the DatePicker icon
 import { format } from 'date-fns'; // For formatting the date display

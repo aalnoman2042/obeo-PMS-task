@@ -8,6 +8,8 @@ import JournalVoucher from "@/features/account/pages/JournalVoucher";
 import OpeningBalance from "@/features/account/pages/OpeningBalance";
 import VoucherApproval from "@/features/account/pages/VoucherApproval";
 import { BalanceSheetPage } from "@/features/account/Report/pages/BalanceSheetPage";
+import { VoucherReport } from "@/features/account/Report/pages/VoucherReport";
+
 
 import { createBrowserRouter } from "react-router";
 
@@ -66,6 +68,12 @@ export const router = createBrowserRouter([
         
             Component:BalanceSheetPage ,
             path: "account/balance-sheet"
+        
+    },
+    {
+        
+            Component:VoucherReport ,
+            path: "account/voucher-report"
         
     },
     
