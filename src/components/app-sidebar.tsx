@@ -36,6 +36,7 @@ import JournalVoucher from "@/features/account/pages/JournalVoucher"
 import VoucherApproval from "@/features/account/pages/VoucherApproval"
 import { BalanceSheetPage } from "@/features/account/Report/pages/BalanceSheetPage"
 import { VoucherReport } from "@/features/account/Report/pages/VoucherReport"
+import TrialBalanceReport from "@/features/account/Report/pages/TrialBalance"
 
 const data = {
   
@@ -89,6 +90,11 @@ const data = {
       title: "Voucher Report",
       Component: VoucherReport,
       url: "account/voucher-report"
+    },
+    {
+      title: "trial Balance",
+      Component: TrialBalanceReport,
+      url: "account/trial-balance"
     },
     
     
