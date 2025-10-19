@@ -254,7 +254,7 @@ export function VoucherReport() {
             </Button>
           </div>
 
-          {/* প্রিন্ট বাটন এবং ডেটা টেবিল */}
+       
           <div className="w-full">
             <div className="flex justify-end mb-4">
               <Button variant="outline" onClick={handlePrint} className="h-9 px-4 text-xs font-medium text-cyan-600 bg-white border border-cyan-400 hover:bg-cyan-50/50 shadow-sm">
