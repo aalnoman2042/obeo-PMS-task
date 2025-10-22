@@ -37,6 +37,7 @@ import VoucherApproval from "@/features/account/pages/VoucherApproval"
 import { BalanceSheetPage } from "@/features/account/Report/pages/BalanceSheetPage"
 import { VoucherReport } from "@/features/account/Report/pages/VoucherReport"
 import TrialBalanceReport from "@/features/account/Report/pages/TrialBalance"
+import CashBook from "@/features/account/Report/pages/CashBook"
 
 const data = {
   
@@ -95,6 +96,11 @@ const data = {
       title: "trial Balance",
       Component: TrialBalanceReport,
       url: "account/trial-balance"
+    },
+    {
+      title: "Cash Book",
+      Component: CashBook,
+      url: "account/Cashbook"
     },
     
     
