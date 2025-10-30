@@ -63,7 +63,7 @@ const DUMMY_DATA: CashBookEntry[] = [
     particulars: "Office Supplies Purchased",
     voucherNo: "V-0002",
     debit: 0.0,
-    credit: 1500.0,
+    credit: 2000.0,
     isOpening: false,
     isTotal: false,
     remark: "Expense",

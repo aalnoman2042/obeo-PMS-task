@@ -180,8 +180,9 @@ export function VoucherReport() {
           <div className="flex flex-wrap items-center gap-12 pb-4 mb-6">
             
             {/* From Date Picker */}
+<div className="lg:flex items-center">
               <label className="text-sm text-center font-medium">From Date</label>
-            <div className="flex flex-col space-y-1.5 min-w-[250px]">
+              <div className="flex flex-col space-y-1.5 min-w-[250px]">
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
@@ -205,10 +206,12 @@ export function VoucherReport() {
                 </PopoverContent>
               </Popover>
             </div>
+</div >
 
             {/* To Date Picker */}
+           <div className="lg:flex items-center">
               <label className="text-sm font-medium">To Date</label>
-            <div className="flex flex-col space-y-1.5 min-w-[250px]">
+             <div className="flex flex-col space-y-1.5 min-w-[250px]">
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
@@ -232,6 +235,7 @@ export function VoucherReport() {
                 </PopoverContent>
               </Popover>
             </div>
+           </div>
             
             {/* Status Select */}
               <label className="text-sm font-medium">Status</label>

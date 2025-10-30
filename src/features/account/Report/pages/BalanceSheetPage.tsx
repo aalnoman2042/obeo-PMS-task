@@ -1,72 +1,71 @@
-import  { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 
-import { format } from 'date-fns';
-import { assets as assetsMock, liabilty as liabiltyMock, equity as equityMock } from '../../../../app/balanceSheet/data';
+import { format } from "date-fns";
+import {
+  assets as assetsMock,
+  liabilty as liabiltyMock,
+  equity as equityMock,
+} from "../../../../app/balanceSheet/data";
 
 // import { ReportHeader } from '../Components/Balance_sheet/ReportHeader';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Calendar } from '@/components/ui/calendar';
-import { cn } from '@/lib/utils';
-import { BalanceSheetSection } from '../components/Balance_sheet/BalanceSheetSection';
-import { ReportHeader } from '../components/Balance_sheet/ReportHeader';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { cn } from "@/lib/utils";
+import { BalanceSheetSection } from "../components/Balance_sheet/BalanceSheetSection";
+import { ReportHeader } from "../components/Balance_sheet/ReportHeader";
+import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+
 // import { BalanceSheetSection } from '../Components/Balance_sheet/BalanceSheetSection';
-
-
-
 
 // Safely formats a Date object to MM/dd/yyyy.
 const toDisplayDate = (date: Date): string => {
   if (isNaN(date.getTime())) {
-    return 'N/A';
+    return "N/A";
   }
-  return format(date, 'MM/dd/yyyy');
+  return format(date, "MM/dd/yyyy");
 };
 
 // Placeholder functions for actions
 
 const onFind = () => console.log("Finding report initiated.");
-const onDateChange = (newDate: string) => console.log("Date changed to:", newDate);
-
-
-
-
+const onDateChange = (newDate: string) =>
+  console.log("Date changed to:", newDate);
 
 export function BalanceSheetPage() {
-
   const totalAssets = assetsMock.totalAssets || 0;
   const totalLiabilities = liabiltyMock.totalLiabilities || 0;
   const totalEquity = equityMock.totalEquity || 0;
-  
 
-  const dateString = assetsMock.from && new Date(assetsMock.from).toString() !== 'Invalid Date' 
-                     ? assetsMock.from 
-                     : format(new Date(), 'yyyy-MM-dd');
+  const dateString =
+    assetsMock.from && new Date(assetsMock.from).toString() !== "Invalid Date"
+      ? assetsMock.from
+      : format(new Date(), "yyyy-MM-dd");
 
   const [date, setDate] = useState<Date>(new Date(dateString));
 
   const handleSelectDate = useCallback((newDate: Date | undefined) => {
     if (newDate) {
       setDate(newDate);
-      onDateChange(format(newDate, 'yyyy-MM-dd')); 
+      onDateChange(format(newDate, "yyyy-MM-dd"));
     }
-  }, []); 
+  }, []);
 
   return (
     <div className="p-8 mx-auto bg-white shadow-xl rounded-lg">
-      
-      
       <div className="mb-4 text-xs font-sans print:mb-0">
-        
         {/* Balance Sheet Title and Print Button */}
         <div className="flex justify-between items-start text-sm text-gray-700 pb-2 border-b border-gray-200">
           <h1 className="text-xl font-semibold text-gray-800">Balance Sheet</h1>
-
         </div>
 
         {/* Date Input and Find Button */}
-          <span className="font-semibold text-gray-600">Report Date</span>
+        <span className="font-semibold text-gray-600">Report Date</span>
         <div className="flex items-center gap-4 mt-4">
           <div className="flex items-center gap-2">
             <Popover>
@@ -78,7 +77,6 @@ export function BalanceSheetPage() {
                     isNaN(date.getTime()) && "text-muted-foreground"
                   )}
                 >
-                  
                   <span>{toDisplayDate(date)}</span>
                 </Button>
               </PopoverTrigger>
@@ -88,7 +86,6 @@ export function BalanceSheetPage() {
                   selected={date}
                   onSelect={handleSelectDate}
                   initialFocus
-                  
                 />
               </PopoverContent>
             </Popover>
@@ -102,13 +99,25 @@ export function BalanceSheetPage() {
         </div>
       </div>
 
-
       <ReportHeader fromDate={dateString} toDate={dateString} />
+
+      <Table className="border-collapse">
+        <TableHeader>
+          <TableRow className="bg-gray-300 hover:bg-gray-300/90 border-t-2">
+            <TableHead className="text-center  text-gray-900">
+              Particulars
+            </TableHead>
+            <TableHead className="text-end  text-gray-900">
+              Total Amount
+            </TableHead>
+          </TableRow>
+        </TableHeader>
+      </Table>
 
       {/* ASSETS SECTION */}
       <BalanceSheetSection
         groupName="ASSETS"
-        data={assetsMock }
+        data={assetsMock}
         grandTotal={totalAssets}
       />
 
@@ -125,8 +134,6 @@ export function BalanceSheetPage() {
         data={equityMock}
         grandTotal={totalEquity}
       />
-
-
     </div>
   );
 }

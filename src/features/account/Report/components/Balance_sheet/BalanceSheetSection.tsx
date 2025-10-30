@@ -28,11 +28,21 @@ export const BalanceSheetSection: React.FC<SectionProps> = ({ groupName, data, g
   }
 
   return (
-    <div className="w-full mt-6">
+    
+<div>
+
+        
+      <div className="w-full ">
+
+{/* dynamic with data */}
       <Table className="border-collapse">
+
+        
         <TableHeader>
+          
           <TableRow className="bg-gray-300 hover:bg-gray-300/90 border-t-2 border-b-2">
-            <TableHead className=" text-center font-extrabold text-gray-900">{groupName}</TableHead>
+            <TableHead className="text-center font-extrabold text-gray-900">{groupName}</TableHead>
+          
             <TableHead className="text-right font-extrabold text-gray-900">{formatCurrency(grandTotal)} DE</TableHead>
           </TableRow>
         </TableHeader>
@@ -40,7 +50,7 @@ export const BalanceSheetSection: React.FC<SectionProps> = ({ groupName, data, g
           <RecursiveRenderer sections={sections} level={0} />
 
           <TableRow className="font-extrabold bg-blue-50 border-t-2 border-b-4 border-blue-200">
-            <TableCell className="py-2.5  text-base">
+            <TableCell className=" py-2.5  text-base text-end">
               TOTAL {groupName}
             </TableCell>
             <TableCell className="text-right py-2.5 text-base">
@@ -50,5 +60,8 @@ export const BalanceSheetSection: React.FC<SectionProps> = ({ groupName, data, g
         </TableBody>
       </Table>
     </div>
+</div>
   );
 };
+
+

@@ -111,7 +111,7 @@ export function RecursiveRenderer({ sections, level = 0 }: RendererProps) {
               <TableRow className="font-bold border-t border-b hover:bg-gray-100/80">
                 <TableCell
                   style={{ paddingLeft: `${paddingLeft}px` }}
-                  className="py-1.5 text-sm"
+                  className="py-1.5 text-sm text-end"
                 >
                   Total {section.title}
                 </TableCell>

@@ -12,13 +12,18 @@ export function ReportHeader({ fromDate, toDate }: ReportHeaderProps) {
       <div className="flex justify-between">
         <div>Balance Sheet Report</div>
         <div>
-          <div className="flex items-center space-x-2 print:hidden">
-            <Button
+          <div className="items-center space-x-2 space-y-2 print:hidden">
+          <div>
+              <Button
               onClick={onPrint}
               className="bg-cyan-500 text-white hover:bg-cyan-600 shadow-sm text-xs h-8 px-3"
             >
               Print
             </Button>
+          </div>
+            <div>
+              <span>{fromDate}</span>
+            </div>
           </div>
         </div>
       </div>
