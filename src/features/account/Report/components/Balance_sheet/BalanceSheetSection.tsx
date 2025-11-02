@@ -1,20 +1,30 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { RecursiveRenderer } from "./RecursiveRenderer";
 
-
 interface SectionProps {
-  groupName: 'ASSETS' | 'LIABILITIES' | 'EQUITY';
+  groupName: "ASSETS" | "LIABILITIES" | "EQUITY";
   data: any;
   grandTotal: number;
 }
 
 // Utility: Currency Formatter
 const formatCurrency = (amount: number): string => {
-  return amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  return amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
-export const BalanceSheetSection: React.FC<SectionProps> = ({ groupName, data, grandTotal }) => {
+export const BalanceSheetSection: React.FC<SectionProps> = ({
+  groupName,
+  data,
+  grandTotal,
+}) => {
   const sectionsKey = groupName.toLowerCase();
   const sections = data?.[sectionsKey];
 
@@ -28,40 +38,42 @@ export const BalanceSheetSection: React.FC<SectionProps> = ({ groupName, data, g
   }
 
   return (
-    
-<div>
+    <div>
+      <div className="w-full">
+        <Table className="border-collapse">
+          <TableHeader>
+            <TableRow className="bg-gray-300 hover:bg-gray-300/90 border-t-2 border-b-2">
+              <TableHead className="text-center font-extrabold text-gray-900">
+                {groupName}
+              </TableHead>
 
-        
-      <div className="w-full ">
+              <TableHead className="text-right font-extrabold text-gray-900">
+                {formatCurrency(grandTotal)} DE
+              </TableHead>
+            </TableRow>
+          </TableHeader>
 
-{/* dynamic with data */}
-      <Table className="border-collapse">
+          <TableBody>
+            <RecursiveRenderer sections={sections} level={0} />
 
-        
-        <TableHeader>
-          
-          <TableRow className="bg-gray-300 hover:bg-gray-300/90 border-t-2 border-b-2">
-            <TableHead className="text-center font-extrabold text-gray-900">{groupName}</TableHead>
-          
-            <TableHead className="text-right font-extrabold text-gray-900">{formatCurrency(grandTotal)} DE</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          <RecursiveRenderer sections={sections} level={0} />
 
-          <TableRow className="font-extrabold bg-blue-50 border-t-2 border-b-4 border-blue-200">
-            <TableCell className=" py-2.5  text-base text-end">
-              TOTAL {groupName}
-            </TableCell>
-            <TableCell className="text-right py-2.5 text-base">
-              {formatCurrency(grandTotal)} DE
-            </TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
+{/* TOTAL group row */}
+<TableRow className="font-extrabold bg-blue-50 border-t-2 border-b-4 border-blue-200">
+  <TableCell className="py-2.5 text-base text-end">
+    {groupName === "EQUITY"
+      ? `Total Liabilities & ${groupName}`
+      : `TOTAL ${groupName}`}
+  </TableCell>
+  <TableCell className="text-right py-2.5 text-base">
+    {formatCurrency(grandTotal)} DE
+  </TableCell>
+</TableRow>
+
+
+            
+          </TableBody>
+        </Table>
+      </div>
     </div>
-</div>
   );
 };
-
-

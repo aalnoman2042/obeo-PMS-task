@@ -104,7 +104,7 @@ export const equity = {
   "to": "30/10/2025",
   "equity": [
     {
-      "title": "Partner Equity",
+      "title": "Equity",
       "items": [
         { "name": "Share Capital", "amount": 1000000.00 },
         { "name": "Drawings", "amount": 125000.00 },

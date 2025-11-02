@@ -238,7 +238,8 @@ export function VoucherReport() {
            </div>
             
             {/* Status Select */}
-              <label className="text-sm font-medium">Status</label>
+<div className="sm: flex items-center">
+                <label className="text-sm font-medium">Status</label>
             <div className="flex flex-col space-y-1.5 min-w-[150px]">
               <Select onValueChange={setStatus} defaultValue={status}>
                 <SelectTrigger className="w-full">
@@ -251,6 +252,7 @@ export function VoucherReport() {
                 </SelectContent>
               </Select>
             </div>
+</div>
 
             {/* Find Button */}
             <Button onClick={handleFind} className="h-9 px-4 text-xs font-medium text-cyan-600 bg-white border border-cyan-400 hover:bg-cyan-50/50 shadow-sm">
